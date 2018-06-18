@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = {
-	  path('login/', views.LogiTemplate.as_view()),
+	  path('login/', views.SigninTemplate.as_view()),
 	  path('signup/', views.SignupTemplate.as_view()),
 }
