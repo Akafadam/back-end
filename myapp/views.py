@@ -1,17 +1,16 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .forms import Signin
+from django.contrib.auth import login, authenticate
 
 class SigninTemplate(TemplateView):
 	template_name = 'myapp/signin.html'
 	initial = {'key': 'value'} 
-	email_class = Signin.get_email
-	password_class = Signin.get_password
+	email_class = Signin
 
 	def get(self, request, *args, **kwargs):
 		email = self.email_class(initial=self.initial)
-		password = self.password_class(initial=self.initial)
-		return render(request,self.template_name, {'email': email, 'password': password,})
+		return render(request,self.template_name, {'email': email,})
 
 class SignupTemplate(TemplateView):
 	template_name = 'myapp/signup.html'

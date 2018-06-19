@@ -1,9 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 
 class Signin(forms.Form):
-
-	def get_email():
-		email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
-
-	def get_password():
-		password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
