@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .forms import Signin
+from .forms import Signin, Signup
 from django.contrib.auth import login, authenticate
 
 class SigninTemplate(TemplateView):
@@ -14,6 +14,8 @@ class SigninTemplate(TemplateView):
 
 class SignupTemplate(TemplateView):
 	template_name = 'myapp/signup.html'
+	email_class = Signup
 
 	def get(self,request):
-		return render(request,self.template_name)
+		registration = self.email_class(request.POST)
+		return render(request,self.template_name, {'registration': registration})
