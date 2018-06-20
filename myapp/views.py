@@ -14,8 +14,9 @@ class SigninTemplate(TemplateView):
 
 class SignupTemplate(TemplateView):
 	template_name = 'myapp/signup.html'
+	initial = {'key': 'value'}
 	email_class = Signup
 
-	def get(self,request):
-		registration = self.email_class(request.POST)
+	def get(self,request, *args, **kwargs):
+		registration = self.email_class(initial=self.initial)
 		return render(request,self.template_name, {'registration': registration})
