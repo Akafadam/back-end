@@ -1,28 +1,35 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views import View
 from .forms import Signin, Signup
 from django.contrib.auth import login, authenticate
 
-class SigninTemplate(TemplateView):
+class SigninTemplate(View):
 	template_name = 'myapp/signin.html'
 	initial = {'key': 'value'} 
-	email_class = Signin
+	signin_class = Signin
 
 	def get(self, request, *args, **kwargs):
-		email = self.email_class(initial=self.initial)
-		return render(request,self.template_name, {'email': email,})
+		signin = self.signin_class(initial=self.initial)
+		return render(request,self.template_name, {'signin': signin,})
 
-class SignupTemplate(TemplateView):
+	def post(self, request, *args, **kwargs):
+		signin = self.signin_class(request.POST)
+		if signin.is_valid:
+			pass
+		
+		return render(request,self.template_name, {'signin': signin,})
+
+class SignupTemplate(View):
 	template_name = 'myapp/signup.html'
 	initial = {'key': 'value'}
-	email_class = Signup
+	signup_class = Signup
 
 	def get(self,request, *args, **kwargs):
-		registration = self.email_class(initial=self.initial)
+		registration = self.signup_class(initial=self.initial)
 		return render(request,self.template_name, {'registration': registration})
 
 	def post(self,request, *args, **kwargs):
-		registration = self.email_class(request.POST)
+		registration = self.signup_class(request.POST)
 		if registration.is_valid:
 			registration.save()
 			username = registration.cleaned_data('username')
