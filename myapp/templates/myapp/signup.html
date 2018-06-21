@@ -21,6 +21,7 @@
       color:gray;
       font-size:14px;
      }
+
    </style>
 </head>
 <body>
@@ -33,12 +34,18 @@
       <legend class="">Register</legend>
     </div>
  
-    <div class="control-group">
+    <div class="control-group w-25">
+      {% for field in registration %}
+      {{registration.label}} 
+      <br>
       {{ registration }}
+      <p></p>
+      {% endfor %}
       <div class="controls">
         <button class="btn btn-primary">Register</button>
       </div>
     </div>
+  </fieldset>
 </form>
 </body>
 </html>

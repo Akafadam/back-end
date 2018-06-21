@@ -32,7 +32,12 @@
     <form class="form-signin container py-2 pl-2 ml-5 my-5">
       <label>
       <div class="w-25">
-        {{email}}
+        {% for field in email %}
+        {{ field.label }}
+        <br>
+        {{ field }}
+        <p></p>
+        {% endfor %}
       </div>
       </label>
       <div class="checkbox mb-3">

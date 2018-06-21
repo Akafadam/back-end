@@ -8,7 +8,10 @@ class Signin(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 class Signup(UserCreationForm):
-	username = forms.CharField(required=False,help_text='',widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-	email = forms.EmailField(required=False,help_text='',widget=forms.TextInput(attrs={'placeholder': 'example@gmail.com'}))
-	password = forms.CharField(required=False,help_text='',widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-	check_password = forms.CharField(required=False,help_text='',widget=forms.PasswordInput(attrs={'placeholder': 'Password(Comfirm)'}))
+	first_name = forms.CharField(max_length=30, required=False)
+	last_name = forms.CharField(max_length=30, required=False)
+	email = forms.EmailField(max_length=254, required=False)
+
+	class Meta:
+		model = User
+		fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2' )

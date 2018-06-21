@@ -20,3 +20,14 @@ class SignupTemplate(TemplateView):
 	def get(self,request, *args, **kwargs):
 		registration = self.email_class(initial=self.initial)
 		return render(request,self.template_name, {'registration': registration})
+
+	def post(self,request, *args, **kwargs):
+		registration = self.email_class(request.POST)
+		if registration.is_valid:
+			registration.save()
+			username = registration.cleaned_data('username')
+			password = registration.cleaned_data('password1')
+			user = authenticate(username=username, password=password)
+			login(request, user)
+
+		return render(request,self.template_name, {'registration': registration})
