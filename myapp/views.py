@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from django.views import View
+from django.views.generic import TemplateView
 from .forms import Signin, Signup
 from django.contrib.auth import login, authenticate
 
-class SigninTemplate(View):
-	template_name = 'myapp/signin.html'
+class SigninTemplate(TemplateView):
 	initial = {'key': 'value'} 
 	signin_class = Signin
 
@@ -19,8 +18,7 @@ class SigninTemplate(View):
 		
 		return render(request,self.template_name, {'signin': signin,})
 
-class SignupTemplate(View):
-	template_name = 'myapp/signup.html'
+class SignupTemplate(TemplateView):
 	initial = {'key': 'value'}
 	signup_class = Signup
 
