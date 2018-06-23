@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-class Signin(forms.Form):
+class Signin(forms.ModelForm):
 	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 

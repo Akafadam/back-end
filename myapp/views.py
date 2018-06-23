@@ -1,14 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from .forms import Signin, Signup
 from django.contrib.auth import login, authenticate
 
 class SigninTemplate(TemplateView):
-	initial = {'key': 'value'} 
 	signin_class = Signin
 
 	def get(self, request, *args, **kwargs):
-		signin = self.signin_class(initial=self.initial)
+		signin = self.signin_class()
 		return render(request,self.template_name, {'signin': signin,})
 
 	def post(self, request, *args, **kwargs):
@@ -19,22 +18,22 @@ class SigninTemplate(TemplateView):
 		return render(request,self.template_name, {'signin': signin,})
 
 class SignupTemplate(TemplateView):
-	initial = {'key': 'value'}
 	signup_class = Signup
 
 	def get(self,request, *args, **kwargs):
-		registration = self.signup_class(initial=self.initial)
+		registration = self.signup_class()
 		return render(request,self.template_name, {'registration': registration})
 
 	def post(self,request, *args, **kwargs):
 		registration = self.signup_class(request.POST)
-		if registration.is_valid:
+		if registration.is_valid():
 			user = registration.save()
 			user.refresh_from_db()
 			user.save()
-			username = registration.cleaned_data('username')
-			password = registration.cleaned_data('password1')
+			username = registration.cleaned_data.get('username')
+			password = registration.cleaned_data.get('password1')
 			user = authenticate(username=username, password=password)
 			login(request, user)
+			return redirect('home')
 
 		return render(request,self.template_name, {'registration': registration})
