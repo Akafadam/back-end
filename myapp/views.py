@@ -29,7 +29,9 @@ class SignupTemplate(TemplateView):
 	def post(self,request, *args, **kwargs):
 		registration = self.signup_class(request.POST)
 		if registration.is_valid:
-			registration.save()
+			user = registration.save()
+			user.refresh_from_db()
+			user.save()
 			username = registration.cleaned_data('username')
 			password = registration.cleaned_data('password1')
 			user = authenticate(username=username, password=password)
