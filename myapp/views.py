@@ -37,3 +37,10 @@ class SignupTemplate(TemplateView):
 			return redirect('home')
 
 		return render(request,self.template_name, {'registration': registration})
+
+class HomeTemplate(TemplateView):
+	signup_class = Signup
+
+	def get(self,request,*args,**kwargs):
+		user = self.signup_class()
+		return render(request,self.template_name, {'user': user})
