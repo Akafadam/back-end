@@ -21,22 +21,22 @@ class SignupTemplate(TemplateView):
 	signup_class = Signup
 
 	def get(self,request, *args, **kwargs):
-		registration = self.signup_class()
-		return render(request,self.template_name, {'registration': registration})
+		form = self.signup_class()
+		return render(request,self.template_name, {'form': form})
 
 	def post(self,request, *args, **kwargs):
-		registration = self.signup_class(request.POST)
-		if registration.is_valid():
-			user = registration.save()
+		form = self.signup_class(request.POST)
+		if not form.is_valid():
+			user = form.save()
 			user.refresh_from_db()
 			user.save()
-			username = registration.cleaned_data.get('username')
-			password = registration.cleaned_data.get('password1')
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=password)
 			login(request, user)
 			return redirect('home')
 
-		return render(request,self.template_name, {'registration': registration})
+		return render(request,self.template_name, {'form': form})
 
 class HomeTemplate(TemplateView):
 	signup_class = Signup
