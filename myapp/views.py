@@ -19,16 +19,16 @@ class SigninTemplate(TemplateView):
 		return render(request,self.template_name, {'signin': signin,})
 
 class SignUpView(FormView):
-	signup_class = UserCreationForm
+	form_class = UserCreationForm
 	template_name = 'myapp/signup.html'
+	success_url = '/thanks/'
 
 	def form_valid(self, form):
-		form.save()
-		username = form.cleaned_data.get('username')
-		password = form.cleaned_data.get('password1')
-		user = authenticate(username=username, password=password)
+		username = form.cleaned_data['username']
+		password = form.cleaned_data['password1']
+		user = authenticate(username=username, password=password1)
 		login(request, user)
-		return redirect('https://docs.djangoproject.com')
+		return super(SignUpView, self).form_valid(form)
 
 class HomeTemplate(TemplateView):
 	signup_class = Signup
